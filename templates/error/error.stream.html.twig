@@ -1,0 +1,10 @@
+<turbo-stream action="append" target="error{{ id }}">
+    <template>
+        {% for error in errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error.message }}
+            </div>
+        {% endfor %}
+    </template>
+</turbo-stream>
+

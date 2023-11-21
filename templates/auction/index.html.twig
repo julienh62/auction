@@ -7,7 +7,8 @@
 {% block body %}
 
     <h1>Enchere en ligne</h1>
-    <div class="auction">
+    <div id="auctions" {{ turbo_stream_listen('App\\Entity\\Auction') }}>
+
         <table class="table">
             <thead>
             <tr>
@@ -18,12 +19,12 @@
                 <th>actions</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="table">
             {% for auction in auctions %}
                 <tr id="auction{{ auction.id }}">
 
                     <td>{{ auction.title }}</td>
-                    <td>{{ auction.price | amount}}</td>
+                    <td id="update">{{ auction.price | amount}}</td>
                     <td> {{ auction.dateOpen|date("Y-m-d") }}</td>
                     <td>
 
@@ -31,8 +32,7 @@
 
                     </td>
                     <td>
-
-                        <form method="post" action=" {{ path('submit_raise', {'auctionId': auction.id}) }} ">
+                        <form method="post" id="error{{ auction.id }}" action=" {{ path('submit_raise', {'auctionId': auction.id}) }} ">
                             <label for="raise_amount">Enchère:</label>
                             <input type="number" id="raise_price" name="raise_price" min="0" step="1" required>
                             <button type="submit">Enchérir</button>

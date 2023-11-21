@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\RaiseRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,6 +19,11 @@ class Raise
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\Column]
+    #[Assert\Expression(
+        "value > this.getLastRaise() + add_value",
+message: ' must be greater than highest raise for this product or + 5 ',
+values: ['add_value' => 5 * 100]
+    )]
     private ?int $price = null;
 
     #[ORM\ManyToOne(inversedBy: 'auctions')]
@@ -65,5 +71,14 @@ class Raise
         $this->auction = $auction;
 
         return $this;
+    }
+
+    public function getLastRaise()
+    {
+        $array = $this->getAuction()?->getRaises()->toArray();
+        if (!count($array)) {
+            return null;
+        }
+        return end($array)->getPrice();
     }
 }

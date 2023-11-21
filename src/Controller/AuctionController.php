@@ -21,8 +21,6 @@ class AuctionController extends AbstractController
     #[Route('/', name: 'home', methods: ['GET', 'POST'])]
     public function index(AuctionRepository $auctionRepository, Request $request, RaiseRepository $raiseRepository): Response
     {
-        // phpinfo();
-        //exit;
         $auctions = $auctionRepository->findAll();
         $raise = $raiseRepository->findAll();
 
@@ -47,7 +45,6 @@ class AuctionController extends AbstractController
              if (turboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
              $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
-                 return $this->render('stream.html.twig', ["id"=>2]);
               }
           return new Response("ok");
           }
