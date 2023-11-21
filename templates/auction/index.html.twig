@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Auctio Controller!{% endblock %}
+
+
+
+{% block body %}
+
+    <h1>Enchere en ligne</h1>
+    <div class="auction">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>name</th>
+                <th>prix</th>
+                <th>date</th>
+                <th>image</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for auction in auctions %}
+                <tr id="auction{{ auction.id }}">
+
+                    <td>{{ auction.title }}</td>
+                    <td>{{ auction.price | amount}}</td>
+                    <td> {{ auction.dateOpen|date("Y-m-d") }}</td>
+                    <td>
+
+                        <img class="image" src="{{ asset('uploads/' ~ auction.image) }}" alt="Image du produit">
+
+                    </td>
+                    <td>
+
+                        <form method="post" action=" {{ path('submit_raise', {'auctionId': auction.id}) }} ">
+                            <label for="raise_amount">Enchère:</label>
+                            <input type="number" id="raise_price" name="raise_price" min="0" step="1" required>
+                            <button type="submit">Enchérir</button>
+                        </form>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+        <form>
+                <a href="{{ path('test2') }}" data-turbo-stream="true" class="btn btn-success btn-lg">Redirection</a>
+        </form>
+    </div>
+
+
+
+{% endblock %}
