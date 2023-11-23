@@ -16,8 +16,6 @@ class AuctionController extends AbstractController
 {
 
 
-
-
     #[Route('/', name: 'home', methods: ['GET', 'POST'])]
     public function index(AuctionRepository $auctionRepository, Request $request, RaiseRepository $raiseRepository): Response
     {
@@ -29,6 +27,7 @@ class AuctionController extends AbstractController
             'raise' => $raise
         ]);
     }
+
     #[Route('/test', name: 'test', methods: ['GET'])]
     public function test(): Response
     {
@@ -38,17 +37,17 @@ class AuctionController extends AbstractController
         ]);
     }
 
-     #[Route('/test2', name: 'test2')]
-      public function bonjour(Request $request, RaiseRepository $raiseRepository, SessionInterface $session): Response
-      {
+    #[Route('/test2', name: 'test2')]
+    public function bonjour(Request $request, RaiseRepository $raiseRepository, SessionInterface $session): Response
+    {
 
-             if (turboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
-             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+        if (turboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
+            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
-              }
-          return new Response("ok");
-          }
+        }
+        return new Response("ok");
+    }
 
-    
+
 
 }

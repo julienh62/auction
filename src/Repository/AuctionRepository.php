@@ -21,6 +21,46 @@ class AuctionRepository extends ServiceEntityRepository
         parent::__construct($registry, Auction::class);
     }
 
+
+    public function findVisibleAuctions(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.status = :status')
+            ->andWhere('a.dateOpen <= :now')
+            ->setParameter('status', 'STANDBY')
+            ->setParameter('now', new \DateTime())
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findTerminatingAuctions(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.status = :status')
+            ->andWhere('a.dateClose <= :now')
+            ->setParameter('status', 'VISIBLE')
+            ->setParameter('now', (new \DateTime()))
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findArchivingAuctions(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.status = :status')
+            ->andWhere('a.dateClose <= :threeMonthsAgo')
+            ->setParameter('status', 'TERMINATED')
+            ->setParameter('threeMonthsAgo', (new \DateTime())->modify('-3 months'))
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    public function save(Auction $auction): void
+    {
+        $this->_em->persist($auction);
+        $this->_em->flush();
+    }
 //    /**
 //     * @return Auction[] Returns an array of Auction objects
 //     */

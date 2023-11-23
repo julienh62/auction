@@ -1,0 +1,7 @@
+#les clés sont toujours les memes , seules les valeurs changent
+# selon les fichier , en ou fr , etc...
+raise: Enchérir
+title: Encheres
+name: nom
+hello: salut
+your raise is validated:  Votre enchere a bien été prise en compte

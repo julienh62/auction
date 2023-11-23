@@ -1,17 +1,11 @@
 {% block create %}
+{#  prepend apprait avant #}
     <turbo-stream action="prepend" target="table">
         <template>
 
-          {#   {%  include "auction/index.html.twig" with {'auction' : entity}%}#}
-                <td>{{ entity.title }}</td>
-                <td>{{ entity.price | amount}}</td>
-                <td> {{ entity.dateOpen|date("Y-m-d") }}</td>
-                <td>
-                    <img class="image" src="{{ asset('uploads/' ~ entity.image) }}" alt="Image du produit">
-                </td>
-                <td>
+            {%  include "auction/auction.html.twig" with {'auction' : entity} %}
 
-                </td>
+
 
         </template>
     </turbo-stream>
@@ -19,19 +13,11 @@
 {% endblock %}
 
 {% block update %}
-    <turbo-stream action="update" target="update">
+    <turbo-stream action="replace" target="auction{{ id }}">
         <template>
 
-            {#   {%  include "auction/index.html.twig" with {'auction' : entity}%}#}
-            <td>{{ entity.title }}</td>
-            <td>{{ entity.price | amount}}</td>
-            <td> {{ entity.dateOpen|date("Y-m-d") }}</td>
-            <td>
-                <img class="image" src="{{ asset('uploads/' ~ entity.image) }}" alt="Image du produit">
-            </td>
-            <td>
+            {%  include "auction/auction.html.twig" with {'auction' : entity} %}
 
-            </td>
 
         </template>
     </turbo-stream>

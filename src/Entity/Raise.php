@@ -21,7 +21,7 @@ class Raise
     #[ORM\Column]
     #[Assert\Expression(
         "value > this.getLastRaise() + add_value",
-message: ' must be greater than highest raise for this product or + 5 ',
+message: "must be greater than highest raise for this product or + 5",
 values: ['add_value' => 5 * 100]
     )]
     private ?int $price = null;
@@ -76,7 +76,7 @@ values: ['add_value' => 5 * 100]
     public function getLastRaise()
     {
         $array = $this->getAuction()?->getRaises()->toArray();
-        if (!count($array)) {
+        if (count($array)==0) {
             return null;
         }
         return end($array)->getPrice();

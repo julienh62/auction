@@ -1,0 +1,25 @@
+
+
+        <tr id="auction{{ auction.id }}">
+
+            <td>{{ auction.title }}</td>
+            <td>{{ auction.description }}</td>
+            <td id="update{{ auction.id }}">{{ auction.price | amount}}</td>
+            <td> {{ auction.dateOpen|date("Y-m-d") }}</td>
+            <td>
+
+                <img class="image" src="{{ asset('uploads/' ~ auction.image) }}" alt="Image du produit">
+
+            </td>
+            <td>{{ auction.status.value }}</td>
+
+            <td>
+                <form method="post" id="error{{ auction.id }}" action=" {{ path('submit_raise', {'auctionId': auction.id}) }} ">
+                    <input type="number" id="raise_price" name="raise_price" min="0" step="1" required>
+                    <button type="submit">{{ "raise"|trans }}</button>
+                </form>
+
+            </td>
+
+        </tr>
+

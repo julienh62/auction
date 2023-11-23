@@ -53,11 +53,12 @@ class RaiseController extends AbstractController
             $this->addFlash('danger', $raiseprice. ' must be greater than highest raise');
             return $this->redirectToRoute('home');
         }
-      //  $auction->setPrice($raiseprice); // Définir le montant de l'enchère
+        $auction->setPrice($raiseprice); // Définir le montant de l'enchère
 
-        // Persistir la raise dans la base de données
+
         $em->persist($raise);
-      //  $em->persist($auction);
+        // Persistir la raise comme nouveau auction dans la base de données
+        //$em->persist($auction);
         $em->flush();
 
         if (turboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
@@ -74,6 +75,8 @@ class RaiseController extends AbstractController
         // Redirection vers une page de confirmation ou toute autre action souhaitée
         return $this->render('raise/stream.html.twig', ["id"=>2]);
     }
+
+
 
 }
 
