@@ -14,3 +14,10 @@ framework:
 #                dsn: '%env(LOKALISE_DSN)%'
 #            phrase:
 #                dsn: '%env(PHRASE_DSN)%'
+
+a2lix_translation_form:
+    locale_provider: default       # [1]
+    locales: [en, fr, es, de]      # [1-a]
+    default_locale: en             # [1-b]
+    required_locales: [fr, en]         # [1-c]
+    templating: "@A2lixTranslationForm/bootstrap_5_layout.html.twig"      # [2]

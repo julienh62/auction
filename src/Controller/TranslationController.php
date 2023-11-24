@@ -12,7 +12,7 @@ class TranslationController extends AbstractController
     #[Route('/locale/{locale}', name: 'locale')]
     public function index(Request $request, $locale): Response
     {
-        if($request->get('lang') == "fr")
+        if($locale == "fr")
         {
             $request->getSession()->set('locale', "fr");
         }

@@ -8,20 +8,23 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: AuctionRepository::class)]
 #[Broadcast]
-class Auction
+class Auction implements TranslatableInterface
 {
+
+    use TranslatableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $title = null;
 
     #[ORM\Column(type: 'string', enumType:Status::class)]
     private Status $status = Status::STANDBY;
@@ -29,8 +32,6 @@ class Auction
     #[ORM\Column]
     private ?int $price = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateOpen = null;
@@ -71,14 +72,12 @@ class Auction
 
     public function getTitle(): ?string
     {
-        return $this->title;
+        return $this->translate()->getTitle();
     }
 
-    public function setTitle(string $title): static
+    public function getDescription(): ?string
     {
-        $this->title = $title;
-
-        return $this;
+        return $this->translate()->getDescription();
     }
 
     public function getPrice(): ?int
@@ -93,17 +92,7 @@ class Auction
         return $this;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
 
-    public function setDescription(string $description): static
-    {
-        $this->description = $description;
-
-        return $this;
-    }
 
     public function getDateOpen(): ?\DateTimeInterface
     {
@@ -139,13 +128,7 @@ class Auction
     {
         $this->createdAt = new \DateTime();
     }
-   /* public function setCreatedAt(\DateTimeInterface $createdAt): static
-    {
-        $this->createdAt = $createdAt;
 
-        return $this;
-    }
-*/
     public function getImage(): ?string
     {
         return $this->image;

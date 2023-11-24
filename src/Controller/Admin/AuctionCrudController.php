@@ -2,16 +2,15 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Admin\Field\TranslationField;
 use App\Entity\Auction;
-use App\Entity\Product;
 use App\Enum\Status;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 
@@ -22,12 +21,37 @@ class AuctionCrudController extends AbstractCrudController
         return Auction::class;
     }
 
+// Define $fieldsConfig with the required properties for translation
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setFormThemes(
+                [
+                    '@A2lixTranslationForm/bootstrap_5_layout.html.twig',
+                    '@EasyAdmin/crud/form_theme.html.twig',
+                ]
+            );
+    }
 
     public function configureFields(string $pageName): iterable
     {
+
+        $fieldsConfig = [
+            'title' => [
+                'field_type' => TextType::class,
+                'required' => true,
+                'label' => 'title'
+            ],
+            'description' => [
+                'field_type' => TextType::class,
+                'required' => true,
+                'label' => 'description'
+            ]
+        ];
         return [
-            TextField::new('title'),
-            TextField::new('description'),
+            TranslationField::new('translations', null, $fieldsConfig)
+                ->setRequired(true)
+                ->hideOnIndex(),
             DateField::new('DateOpen'),
             DateField::new('DateClose'),
             MoneyField::new('price')->setCurrency('EUR'),
@@ -41,7 +65,7 @@ class AuctionCrudController extends AbstractCrudController
                 ->setBasePath('uploads/')
                 ->setUploadDir('public/uploads/')
                 ->setUploadedFileNamePattern('[slug]-[contenthash].[extension]')
-                ->setRequired(true)
+                ->setRequired(true),
         ];
     }
 

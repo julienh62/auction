@@ -32,10 +32,11 @@ class PanthereTestCaseTest extends PantherTestCase
 
       $client = static::createPantherClient();
        $crawler = $client->request('GET', '/');
-            $auctionId = 8;
-         $form = $crawler->filter("form")->form(["raise_price"=>5000]);
-            $form = $crawler->filter('#auction-'.$auction->getId().' .sendButton')->form([
-                "price"=>5000
+       // attention l'id doit bien exister!
+            $auctionId = 30;
+           //  $form = $crawler->filter("form")->form(["raise_price"=>5000]);
+            $form = $crawler->filter('#auction-'.$auctionId.' .sendButton')->form([
+                "raise_price"=>5000
             ]);
         $client->submit($form);
        //si description est dans le 1er th
